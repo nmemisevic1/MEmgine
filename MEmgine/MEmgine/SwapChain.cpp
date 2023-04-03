@@ -11,6 +11,12 @@ SwapChain::~SwapChain()
 
 }
 
+bool SwapChain::present(bool vsync)
+{
+	mSwapChain->Present(vsync, NULL);
+	return true;
+}
+
 bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 {
 	ID3D11Device* device = GraphicsEngine::getInstance()->mDevice;
@@ -30,6 +36,16 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 	swapChainDesc.Windowed = TRUE;
 
 	HRESULT hr = GraphicsEngine::getInstance()->mDXGIFactory->CreateSwapChain(device, &swapChainDesc, &mSwapChain);
+	if (FAILED(hr)) return false;
+
+	ID3D11Texture2D * mBackBuffer;
+	hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&mBackBuffer);
+	if (FAILED(hr)) return false;
+
+	hr = device->CreateRenderTargetView(mBackBuffer, NULL, &mRenderTargetView);
+	mBackBuffer->Release();
+	if (FAILED(hr)) return false;
+
 	return SUCCEEDED(hr);
 }
 

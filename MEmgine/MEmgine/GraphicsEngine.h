@@ -1,6 +1,10 @@
 #pragma once
 #include <d3d11.h>
 #include "SwapChain.h"
+#include "DeviceContext.h"
+
+class SwapChain;
+class DeviceContext;
 
 class GraphicsEngine
 {
@@ -15,6 +19,10 @@ public:
 
 public:
 	SwapChain* createSwapChain();
+	DeviceContext* getImmediateDeviceContext();
+
+private:
+	DeviceContext* mImmDeviceContext;
 
 private:
 	// The device
@@ -22,9 +30,6 @@ private:
 	
 	// The feature level
 	D3D_FEATURE_LEVEL mFeatureLevel;
-	
-	// The device context
-	ID3D11DeviceContext* mDeviceContext;
 
 	IDXGIDevice *mDXGIDevice;
 

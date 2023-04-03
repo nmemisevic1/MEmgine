@@ -1,7 +1,5 @@
-﻿  SwapChain.cpp
+﻿  DeviceContext.cpp
   GraphicsEngine.cpp
-  MEmgine.cpp
+  SwapChain.cpp
   main.cpp
-  qrc_MEmgine.cpp
-  moc_MEmgine.cpp
   MEmgine.vcxproj -> C:\Users\USER\Desktop\MEngine\MEmgine\x64\Debug\MEmgine.exe
