@@ -24,6 +24,9 @@
     <Filter Include="GraphicsEngine">
       <UniqueIdentifier>{b23ff2ef-ecd3-4de3-85e0-504f8bfa1972}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\SwapChain">
+      <UniqueIdentifier>{5f287112-25f6-4e69-a320-9280c1a0966d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MEmgine.qrc">
@@ -46,10 +49,16 @@
     <ClCompile Include="GraphicsEngine.cpp">
       <Filter>GraphicsEngine</Filter>
     </ClCompile>
+    <ClCompile Include="SwapChain.cpp">
+      <Filter>GraphicsEngine\SwapChain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsEngine.h">
       <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>GraphicsEngine\SwapChain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

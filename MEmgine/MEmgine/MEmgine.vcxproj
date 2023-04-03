@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SwapChain.cpp" />
     <QtRcc Include="MEmgine.qrc" />
     <QtUic Include="MEmgine.ui" />
     <QtMoc Include="MEmgine.h" />
@@ -97,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="SwapChain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
