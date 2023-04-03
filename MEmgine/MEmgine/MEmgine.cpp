@@ -7,4 +7,6 @@ MEmgine::MEmgine(QWidget *parent)
 }
 
 MEmgine::~MEmgine()
-{}
+{
+    
+}
