@@ -22,6 +22,11 @@ ViewportWidget::~ViewportWidget()
     mGraphicsEngine->release();
 }
 
+void ViewportWidget::updateViewport(){
+	mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
+    mSwapChain->present(false);
+}
+
 void ViewportWidget::paintEvent(QPaintEvent* event)
 {
     mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);

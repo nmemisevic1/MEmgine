@@ -8,7 +8,7 @@ class ViewportWidget : public QWidget
 public:
     ViewportWidget(QWidget* parent = Q_NULLPTR);
     ~ViewportWidget();
-
+    void updateViewport();
 private:
     GraphicsEngine* mGraphicsEngine;
     SwapChain* mSwapChain;
