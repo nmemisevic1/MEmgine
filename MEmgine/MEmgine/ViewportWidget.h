@@ -2,7 +2,10 @@
 #include <QWidget>
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
+#include "DeviceContext.h"
 #include "VertexBuffer.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
 
 class ViewportWidget : public QWidget
 {
@@ -10,10 +13,15 @@ public:
     ViewportWidget(QWidget* parent = Q_NULLPTR);
     ~ViewportWidget();
     void updateViewport();
+    
+    UINT viewportWidth;
+    UINT viewportHeight;
 private:
     GraphicsEngine* mGraphicsEngine;
     SwapChain* mSwapChain;
     VertexBuffer* mVertexBuffer;
+    VertexShader* mVertexShader;
+    PixelShader* mPixelShader;
 
 protected:
     virtual void	actionEvent(QActionEvent* event) override;
@@ -43,6 +51,7 @@ protected:
     virtual void	mouseReleaseEvent(QMouseEvent* event) override;
     virtual void	moveEvent(QMoveEvent* event) override;
     virtual bool	nativeEvent(const QByteArray& eventType, void* message, qintptr* result) override;
+    void renderViewport();
     virtual void	paintEvent(QPaintEvent* event) override;
     virtual void	resizeEvent(QResizeEvent* event) override;
     virtual void	showEvent(QShowEvent* event) override;

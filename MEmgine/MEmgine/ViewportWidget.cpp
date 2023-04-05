@@ -1,7 +1,4 @@
 #include "ViewportWidget.h"
-#include "GraphicsEngine.h"
-#include "SwapChain.h"
-#include "DeviceContext.h"
 #include <QtWidgets/QPushButton>
 
 struct vec3
@@ -12,6 +9,7 @@ struct vec3
 struct Vertex
 {
 	vec3 position;
+    vec3 color;
 };
 
 ViewportWidget::ViewportWidget(QWidget* parent)
@@ -23,186 +21,176 @@ ViewportWidget::ViewportWidget(QWidget* parent)
     mSwapChain->init((HWND)this->winId(), 800, 600);
 
     Vertex list[] = {
-        {-0.5f, -0.5f, 0.0f},
-        {0.0f, -0.5f, 0.0f},
-        {0.0f, 0.5f, 0.0f}
+        {-0.5f,-0.5f,0.0f,   0,0,0}, // POS1
+        {-0.5f,0.5f,0.0f,    1,1,0}, // POS2
+        { 0.5f,-0.5f,0.0f,   0,0,1},// POS2
+        { 0.5f,0.5f,0.0f,    1,1,1}
     };
     
-
     mVertexBuffer = mGraphicsEngine->createVertexBuffer();
     UINT sizeList = ARRAYSIZE(list);
+    
+    
+    void* shaderByteCode = nullptr;
+    size_t sizeShader = 0;
+    mGraphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+    mVertexShader = mGraphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+    mVertexBuffer->load(list, sizeof(Vertex), sizeList, shaderByteCode, sizeShader);
 
-    //mVertexBuffer->load(list, sizeof(Vertex), sizeList);
+    mGraphicsEngine->releaseCompiledShader();
+
+    mGraphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+    mPixelShader = mGraphicsEngine->createPixelShader(shaderByteCode, sizeShader);
+
+    mGraphicsEngine->releaseCompiledShader();
 }
 
 ViewportWidget::~ViewportWidget()
 {
     mSwapChain->release();
     mGraphicsEngine->release();
+    mVertexBuffer->release();
+    mVertexShader->release();
+    mPixelShader->release();
+
 }
 
-void ViewportWidget::updateViewport(){
-	mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+void ViewportWidget::updateViewport()
+{
+    renderViewport();
 }
 
 void ViewportWidget::paintEvent(QPaintEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::resizeEvent(QResizeEvent* event)
 {
-    QWidget::resizeEvent(event);
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    //QWidget::resizeEvent(event);
+    renderViewport();
 }
 
 void ViewportWidget::showEvent(QShowEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::tabletEvent(QTabletEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::wheelEvent(QWheelEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::actionEvent(QActionEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::changeEvent(QEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::closeEvent(QCloseEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::contextMenuEvent(QContextMenuEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::dragMoveEvent(QDragMoveEvent* event)
 {
     QWidget::dragMoveEvent(event);
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::dropEvent(QDropEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::enterEvent(QEnterEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::focusInEvent(QFocusEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 bool ViewportWidget::focusNextPrevChild(bool next)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
     return false;
 }
 
 void ViewportWidget::focusOutEvent(QFocusEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::hideEvent(QHideEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::inputMethodEvent(QInputMethodEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::keyPressEvent(QKeyEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::keyReleaseEvent(QKeyEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::leaveEvent(QEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::mouseDoubleClickEvent(QMouseEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::mousePressEvent(QMouseEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
-    mSwapChain->present(false);
+    renderViewport();
 }
 
 void ViewportWidget::moveEvent(QMoveEvent* event)
@@ -213,4 +201,24 @@ void ViewportWidget::moveEvent(QMoveEvent* event)
 bool ViewportWidget::nativeEvent(const QByteArray& eventType, void* message, qintptr* result)
 {
     return false;
+}
+
+void ViewportWidget::renderViewport()
+{
+    mGraphicsEngine->getImmediateDeviceContext()->clearRenderTargetColor(this->mSwapChain, 0.7f, 0.7f, 0.7f, 1.0f);
+    RECT rc;
+    GetClientRect((HWND)this->winId(), &rc);
+    
+    mGraphicsEngine->getImmediateDeviceContext()->setViewportSize(800, 600);
+    
+    mGraphicsEngine->getImmediateDeviceContext()->setVertexShader(mVertexShader);
+    mGraphicsEngine->getImmediateDeviceContext()->setPixelShader(mPixelShader);
+
+    mGraphicsEngine->getImmediateDeviceContext()->setVertexBuffer(mVertexBuffer);
+    mGraphicsEngine->getImmediateDeviceContext()->drawTriangleStrip(mVertexBuffer->getSizeVertexList(), 0);
+
+
+    mSwapChain->present(false);
+
+
 }

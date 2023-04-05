@@ -11,6 +11,7 @@ public:
 
 	bool load(void* listVertices, UINT sizeVertex, UINT sizeList, void* shaderByteCode, UINT sizeByteShader);
 	bool release();
+	UINT getSizeVertexList();
 
 private:
 	UINT sizeVertex;

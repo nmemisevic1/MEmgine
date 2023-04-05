@@ -1,6 +1,8 @@
 #include "DeviceContext.h"
 #include "SwapChain.h"
 #include "VertexBuffer.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
 
 DeviceContext::DeviceContext(ID3D11DeviceContext* deviceContext): mDeviceContext(deviceContext)
 {
@@ -24,8 +26,9 @@ bool DeviceContext::Release()
 
 void DeviceContext::setVertexBuffer(VertexBuffer* vertexBuffer)
 {
+	UINT stride = vertexBuffer->sizeVertex;
 	UINT offset = 0;
-	mDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer->mBuffer, &vertexBuffer->sizeVertex, &offset);
+	mDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer->mBuffer, &stride, &offset);
 	mDeviceContext->IASetInputLayout(vertexBuffer->mLayout);
 }
 
@@ -38,16 +41,22 @@ bool DeviceContext::clearRenderTargetColor(SwapChain* swapChain, float red, floa
 	return true;
 }
 
-void DeviceContext::drawTriangleList(UINT sizeList, UINT startVertexIndex)
+void DeviceContext::drawTriangleList(UINT vertexCount, UINT startVertexIndex)
 {
 	mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	mDeviceContext->Draw(sizeList, startVertexIndex);
+	mDeviceContext->Draw(vertexCount, startVertexIndex);
 	
+}
+
+void DeviceContext::drawTriangleStrip(UINT vertexCount, UINT startVertexIndex)
+{
+	mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	mDeviceContext->Draw(vertexCount, startVertexIndex);
 }
 
 void DeviceContext::setViewportSize(UINT width, UINT height)
 {
-	D3D11_VIEWPORT viewport = {};
+	D3D11_VIEWPORT viewport;
 	viewport.Width = (FLOAT)width;
 	viewport.Height = (FLOAT)height;
 	viewport.MinDepth = 0.0f;
@@ -57,4 +66,14 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 
 	mDeviceContext->RSSetViewports(1, &viewport);
 
+}
+
+void DeviceContext::setVertexShader(VertexShader* vertexShader)
+{
+	mDeviceContext->VSSetShader(vertexShader->mVertexShader, nullptr, 0);
+}
+
+void DeviceContext::setPixelShader(PixelShader* pixelShader)
+{
+	mDeviceContext->PSSetShader(pixelShader->mPixelShader, nullptr, 0);
 }

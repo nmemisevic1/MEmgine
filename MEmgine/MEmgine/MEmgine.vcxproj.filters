@@ -36,6 +36,12 @@
     <Filter Include="GraphicsEngine\VertexBuffer">
       <UniqueIdentifier>{63f9674b-1cba-4c4f-a620-320f399ffbd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\VertexShader">
+      <UniqueIdentifier>{c4d1028c-4596-4470-abee-f49d233f3a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\PixelShader">
+      <UniqueIdentifier>{57d30e97-39cf-4fc6-86ab-b8e267cee268}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MEmgine.qrc">
@@ -70,6 +76,12 @@
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>GraphicsEngine\VertexBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>GraphicsEngine\VertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>GraphicsEngine\PixelShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsEngine.h">
@@ -87,5 +99,15 @@
     <ClInclude Include="VertexBuffer.h">
       <Filter>GraphicsEngine\VertexBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>GraphicsEngine\VertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>GraphicsEngine\PixelShader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexShader.hlsl" />
+    <FxCompile Include="PixelShader.hlsl" />
   </ItemGroup>
 </Project>
