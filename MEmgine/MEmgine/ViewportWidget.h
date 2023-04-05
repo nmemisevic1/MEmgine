@@ -1,7 +1,8 @@
 #pragma once
-
 #include <QWidget>
 #include "GraphicsEngine.h"
+#include "SwapChain.h"
+#include "VertexBuffer.h"
 
 class ViewportWidget : public QWidget
 {
@@ -12,6 +13,7 @@ public:
 private:
     GraphicsEngine* mGraphicsEngine;
     SwapChain* mSwapChain;
+    VertexBuffer* mVertexBuffer;
 
 protected:
     virtual void	actionEvent(QActionEvent* event) override;

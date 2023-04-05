@@ -1,2 +1,4 @@
-﻿  main.cpp
-  MEmgine.vcxproj -> C:\Users\USER\Desktop\MEngine\MEmgine\x64\Debug\MEmgine.exe
+﻿  ViewportWidget.cpp
+C:\Users\USER\Desktop\MEngine\MEmgine\MEmgine\ViewportWidget.cpp(35,18): error C2660: 'VertexBuffer::load': function does not take 3 arguments
+C:\Users\USER\Desktop\MEngine\MEmgine\MEmgine\VertexBuffer.h(12,7): message : see declaration of 'VertexBuffer::load'
+C:\Users\USER\Desktop\MEngine\MEmgine\MEmgine\ViewportWidget.cpp(35,18): message : while trying to match the argument list '(Vertex [3], size_t, UINT)'

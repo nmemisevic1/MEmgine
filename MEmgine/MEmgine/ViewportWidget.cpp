@@ -4,6 +4,16 @@
 #include "DeviceContext.h"
 #include <QtWidgets/QPushButton>
 
+struct vec3
+{
+	float x, y, z;
+};
+
+struct Vertex
+{
+	vec3 position;
+};
+
 ViewportWidget::ViewportWidget(QWidget* parent)
     : QWidget(parent)
 {
@@ -12,8 +22,17 @@ ViewportWidget::ViewportWidget(QWidget* parent)
     mSwapChain = mGraphicsEngine->createSwapChain();
     mSwapChain->init((HWND)this->winId(), 800, 600);
 
-    QPushButton* simpleButton = new QPushButton("Click me", nullptr);
-    simpleButton->setGeometry(30, 30, 100, 30);
+    Vertex list[] = {
+        {-0.5f, -0.5f, 0.0f},
+        {0.0f, -0.5f, 0.0f},
+        {0.0f, 0.5f, 0.0f}
+    };
+    
+
+    mVertexBuffer = mGraphicsEngine->createVertexBuffer();
+    UINT sizeList = ARRAYSIZE(list);
+
+    //mVertexBuffer->load(list, sizeof(Vertex), sizeList);
 }
 
 ViewportWidget::~ViewportWidget()

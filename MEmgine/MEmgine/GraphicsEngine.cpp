@@ -1,6 +1,7 @@
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
+#include "VertexBuffer.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -50,8 +51,14 @@ DeviceContext* GraphicsEngine::getImmediateDeviceContext()
 	return this->mImmDeviceContext;
 }
 
+VertexBuffer* GraphicsEngine::createVertexBuffer()
+{
+	return new VertexBuffer();
+}
+
 GraphicsEngine* GraphicsEngine::getInstance()
 {
 	static GraphicsEngine instance;
 	return &instance;
 }
+
