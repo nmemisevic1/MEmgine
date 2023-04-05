@@ -1,5 +1,6 @@
 #include "VertexShader.h"
 #include "GraphicsEngine.h"
+#include "DeviceContext.h"
 
 VertexShader::VertexShader()
 {
