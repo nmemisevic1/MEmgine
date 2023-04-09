@@ -42,6 +42,9 @@
     <Filter Include="GraphicsEngine\PixelShader">
       <UniqueIdentifier>{57d30e97-39cf-4fc6-86ab-b8e267cee268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\ConstantBuffer">
+      <UniqueIdentifier>{8f702446-f5f0-483f-9f54-72ae606e986f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MEmgine.qrc">
@@ -82,6 +85,9 @@
     <ClCompile Include="PixelShader.cpp">
       <Filter>GraphicsEngine\PixelShader</Filter>
     </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>GraphicsEngine\ConstantBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsEngine.h">
@@ -104,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="PixelShader.h">
       <Filter>GraphicsEngine\PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>GraphicsEngine\ConstantBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
