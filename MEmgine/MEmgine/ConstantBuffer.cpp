@@ -1,8 +1,9 @@
 #include "ConstantBuffer.h"
 #include "GraphicsEngine.h"
 #include "DeviceContext.h"
+#include <iostream>
 
-ConstantBuffer::ConstantBuffer()
+ConstantBuffer::ConstantBuffer(): mBuffer(nullptr)
 {
 }
 
@@ -34,7 +35,7 @@ bool ConstantBuffer::load(void* buffer, UINT sizeBuffer)
 
 void ConstantBuffer::update(DeviceContext* context, void* buffer)
 {
-	context->mDeviceContext->UpdateSubresource(mBuffer, NULL, NULL, buffer, NULL, NULL);
+	context->mDeviceContext->UpdateSubresource(this->mBuffer, NULL, NULL, buffer, NULL, NULL);
 
 }
 

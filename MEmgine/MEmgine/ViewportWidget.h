@@ -1,9 +1,11 @@
 #pragma once
 #include <QWidget>
+#include <QElapsedTimer>
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
+#include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 
@@ -16,12 +18,20 @@ public:
     
     UINT viewportWidth;
     UINT viewportHeight;
+    UINT a = 0;
 private:
     GraphicsEngine* mGraphicsEngine;
     SwapChain* mSwapChain;
     VertexBuffer* mVertexBuffer;
     VertexShader* mVertexShader;
     PixelShader* mPixelShader;
+    ConstantBuffer* mConstantBuffer;
+    QElapsedTimer mTimer;
+
+    //QPushButton* mButton;
+    unsigned long m_old_time = 0;
+    float m_delta_time = 0;
+    float m_angle = 0;
 
 protected:
     virtual void	actionEvent(QActionEvent* event) override;

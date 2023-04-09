@@ -9,8 +9,18 @@ struct vec3
 struct Vertex
 {
 	vec3 position;
+	vec3 position1;
     vec3 color;
+    vec3 color1;
 };
+
+__declspec(align(16))
+struct constant
+{
+    float m_angle;
+};
+
+
 
 ViewportWidget::ViewportWidget(QWidget* parent)
     : QWidget(parent)
@@ -21,10 +31,11 @@ ViewportWidget::ViewportWidget(QWidget* parent)
     mSwapChain->init((HWND)this->winId(), 800, 600);
 
     Vertex list[] = {
-        {-0.5f,-0.5f,0.0f,   0,0,0}, // POS1
-        {-0.5f,0.5f,0.0f,    1,1,0}, // POS2
-        { 0.5f,-0.5f,0.0f,   0,0,1},// POS2
-        { 0.5f,0.5f,0.0f,    1,1,1}
+        //X - Y - Z
+        {-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
+        {-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
+        { 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
+        { 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
     };
     
     mVertexBuffer = mGraphicsEngine->createVertexBuffer();
@@ -43,6 +54,16 @@ ViewportWidget::ViewportWidget(QWidget* parent)
     mPixelShader = mGraphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 
     mGraphicsEngine->releaseCompiledShader();
+
+    
+
+    mConstantBuffer = mGraphicsEngine->createConstantBuffer();
+    constant cc;
+    cc.m_angle = 0;
+    mConstantBuffer->load(&cc, sizeof(constant));
+
+    mTimer.start();
+
 }
 
 ViewportWidget::~ViewportWidget()
@@ -211,6 +232,25 @@ void ViewportWidget::renderViewport()
     
     mGraphicsEngine->getImmediateDeviceContext()->setViewportSize(800, 600);
     
+    unsigned long new_time = 0;
+    if (m_old_time)
+        new_time = mTimer.elapsed() - m_old_time;
+    m_delta_time = new_time / 1000.0f;
+    m_old_time = mTimer.elapsed();
+    m_angle += 1.57f * m_delta_time;
+    constant cc;
+    cc.m_angle = m_angle;
+    
+    mConstantBuffer->update(mGraphicsEngine->getImmediateDeviceContext(), &cc);
+
+    mGraphicsEngine->getImmediateDeviceContext()->setConstantBuffer(mVertexShader, mConstantBuffer);
+    mGraphicsEngine->getImmediateDeviceContext()->setConstantBuffer(mPixelShader, mConstantBuffer);
+
+
+
+
+
+
     mGraphicsEngine->getImmediateDeviceContext()->setVertexShader(mVertexShader);
     mGraphicsEngine->getImmediateDeviceContext()->setPixelShader(mPixelShader);
 

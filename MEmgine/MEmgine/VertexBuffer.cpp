@@ -34,8 +34,10 @@ bool VertexBuffer::load(void* listVertices, UINT sizeVertex, UINT sizeList, void
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		// SemanticName, SemanticIndex, Format, InputSlot, AlignedByteOffset, InputSlotClass, InstanceDataStepRate
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"POSITION", 0,  DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,D3D11_INPUT_PER_VERTEX_DATA ,0},
+		{"POSITION", 1,  DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,D3D11_INPUT_PER_VERTEX_DATA ,0 },
+		{ "COLOR", 0,  DXGI_FORMAT_R32G32B32_FLOAT, 0, 24,D3D11_INPUT_PER_VERTEX_DATA ,0 },
+		{ "COLOR", 1,  DXGI_FORMAT_R32G32B32_FLOAT, 0, 36,D3D11_INPUT_PER_VERTEX_DATA ,0 }
 	};
 
 	UINT sizeLayout = ARRAYSIZE(layout);
@@ -48,8 +50,8 @@ bool VertexBuffer::load(void* listVertices, UINT sizeVertex, UINT sizeList, void
 
 bool VertexBuffer::release()
 {
-	mLayout->Release();
-	mBuffer->Release();
+	if(mLayout)mLayout->Release();
+	if(mBuffer)mBuffer->Release();
 	delete this;
 	return true;
 }

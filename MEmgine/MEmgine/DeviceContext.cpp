@@ -1,6 +1,7 @@
 #include "DeviceContext.h"
 #include "SwapChain.h"
 #include "VertexBuffer.h"
+#include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 
@@ -76,4 +77,15 @@ void DeviceContext::setVertexShader(VertexShader* vertexShader)
 void DeviceContext::setPixelShader(PixelShader* pixelShader)
 {
 	mDeviceContext->PSSetShader(pixelShader->mPixelShader, nullptr, 0);
+}
+
+void DeviceContext::setConstantBuffer(VertexShader* vertexShader, ConstantBuffer* buffer)
+{
+	mDeviceContext->VSSetConstantBuffers(0, 1, &buffer->mBuffer);
+
+}
+
+void DeviceContext::setConstantBuffer(PixelShader* vertexShader, ConstantBuffer* buffer)
+{
+	mDeviceContext->PSSetConstantBuffers(0, 1, &buffer->mBuffer);
 }
